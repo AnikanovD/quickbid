@@ -56,19 +56,16 @@ docker-compose up
 
 ## Структура проекта
 
--   `commands/` - содержит консольные команды (контроллеры);
--   `commands/AuctionEndCommand` - содержит консольные команды (контроллеры);
+-   `commands/` - содержит консольные команды (воркер для обновления состояния аукционов);
 -   `config/` - содержит конфигурации приложения;
--   `controllers/AuctionController.php` - содержит классы веб-контроллеров;
--   `controllers/BidController` - содержит классы веб-контроллеров;
+-   `controllers/AuctionController.php` - список аукционов, просмотр аукциона и истории ставок, совершение ставки;
+-   `controllers/BidController` - мои ставки;
 -   `models/` - содержит классы моделей;
--   `models/User.php` - содержит классы моделей;
--   `models/Auction.php` - содержит классы моделей;
--   `models/Bid.php` - содержит классы моделей;
--   `migrations/create_user_table.php` - ;
--   `migrations/create_auction_table.php` - ;
--   `migrations/create_bid_table.php` - ;
--   `views/` - содержит файлы представлений для веб-приложения;
+-   `models/User.php` - модель пользователя (username, balance);
+-   `models/Auction.php` - модель аукциона (name, photo, description, start_time, end_time, bid_step, starting_bid, current_bid, state, created_at, updated_at);
+-   `models/Bid.php` - модель ставки (auction_id, user_id, amount, created_at);
+-   `migrations/` - миграции ;
+-   `views/` - содержит файлы представлений ;
 -   `web/photo/` - содержит изображения для демо аукционов
 
 

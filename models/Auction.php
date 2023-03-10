@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auction".
@@ -20,10 +23,14 @@ use Yii;
  * @property int $created_at Timestamp when the auction was created
  * @property int $updated_at Timestamp when the auction was last updated
  *
- * @property Bid[] $bs
+ * @property Bid[] $bids
  */
-class Auction extends \yii\db\ActiveRecord
+class Auction extends ActiveRecord
 {
+    const STATE_PENDING = 0;
+    const STATE_STARTED = 1;
+    const STATE_FINISHED = 2;
+
     /**
      * {@inheritdoc}
      */
@@ -67,13 +74,53 @@ class Auction extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Bs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBs()
+    public function validateStartEndTime($attribute, $params)
     {
-        return $this->hasMany(Bid::class, ['auction_id' => 'id']);
+        $start = strtotime($this->start_time);
+        $end = strtotime($this->end_time);
+        if ($start >= $end) {
+            $this->addError($attribute, 'End time must be greater than start time.');
+        }
+    }
+
+    public function getCurrentBid()
+    {
+        return $this->hasOne(Bid::class, ['auction_id' => 'id'])->orderBy(['amount' => SORT_DESC]);
+    }
+
+    public function getBids()
+    {
+        return $this->hasMany(Bid::class, ['auction_id' => 'id'])->orderBy(['amount' => SORT_DESC]);
+    }
+
+    public function getMinBidAmount()
+    {
+        $currentBid = $this->currentBid;
+        return $currentBid ? $currentBid->amount + $this->bid_step : $this->starting_bid;
+    }
+
+    public function getStateLabel()
+    {
+        $states = [
+            self::STATE_PENDING => 'Pending',
+            self::STATE_ACTIVE => 'Active',
+            self::STATE_FINISHED => 'Finished',
+        ];
+        return ArrayHelper::getValue($states, $this->state);
+    }
+
+    public function isPending()
+    {
+        return $this->state === self::STATE_PENDING;
+    }
+
+    public function isStarted()
+    {
+        return $this->state === self::STATE_STARTED;
+    }
+
+    public function isFinished()
+    {
+        return $this->state === self::STATE_FINISHED;
     }
 }

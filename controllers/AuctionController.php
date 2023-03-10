@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\data\ActiveDataProvider;
 use app\models\Auction;
 use app\models\BidForm;
 
@@ -13,10 +12,8 @@ class AuctionController extends Controller
     // Отображает список всех аукционов
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Auction::find(),
-        ]);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
+        $auctions = Auction::find()->all();
+        return $this->render('index', ['auctions' => $auctions]);
     }
 
     // Отображает конкретный аукцион и форму для сделки ставки
