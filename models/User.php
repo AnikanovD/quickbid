@@ -52,7 +52,7 @@ class User extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBs()
+    public function getBids()
     {
         return $this->hasMany(Bid::class, ['user_id' => 'id']);
     }
