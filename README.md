@@ -31,7 +31,7 @@ docker-compose up
 
 3.  Откройте браузер и перейдите по адресу (http://localhost:8080). 
 
-![localhost_8080_.png](https://github.com/AnikanovD/quickbid/blob/master/web/localhost_8080_.png?raw=true)
+![localhost_8080_.png](https://github.com/AnikanovD/quickbid/blob/main/web/localhost_8080_.png?raw=true)
 
 Вы должны увидеть домашнюю страницу QuickBid.
 
