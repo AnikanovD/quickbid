@@ -1,64 +1,110 @@
-
 # QuickBid
 
-QuickBid is a simple auction system that allows users to create and participate in auctions. The system is built using PHP, Yii2 framework, MySQL, Redis, and RabbitMQ.
+QuickBid - это простая аукционная система, позволяющая пользователям создавать и участвовать в аукционах. Система построена с использованием PHP, фреймворка Yii2, MySQL, Redis и RabbitMQ.
+
+## Функционал
+
+-   Создание аукционов и участие в них;
+-   Упрощенная регистрация и вход только по имени пользователя;
+-   Начисление приветственного бонуса в размере 1000 ₽ всем новым участникам.
+
+### Установка и запуск
+
+Следуйте этим шагам, чтобы установить и запустить QuickBid:
+
+1.  Клонируйте репозиторий:
+
+`git clone https://github.com/AnikanovD/quickbid.git` 
+
+2.  Перейдите в директорию с проектом и соберите Docker-контейнеры:
+
+`cd quickbid
+docker-compose build` 
+
+3.  Запустите Docker-контейнеры:
+
+`docker-compose up` 
+
+4.  Откройте браузер и перейдите по адресу `http://localhost:8080`. Вы должны увидеть домашнюю страницу QuickBid.
+
+---
+
+## Структура проекта
+
+-   `commands/` - содержит консольные команды (контроллеры);
+-   `config/` - содержит конфигурации приложения;
+-   `controllers/` - содержит классы веб-контроллеров;
+-   `models/` - содержит классы моделей;
+-   `views/` - содержит файлы представлений для веб-приложения;
+-   `web/photo/` - содержит изображения для демо аукционов
+
+### Доступ к базе данных
+
+Для доступа к базе данных QuickBid вы можете использовать PHPMyAdmin. Он будет доступен по адресу `http://localhost:8081`. Для входа используйте логин `quickbid` и пароль `quickbid`.
+
+### Команды и миграции
+
+Для запуска консольных команд и миграций в Docker-контейнере PHP выполните следующие действия:
+
+1.  Подключитесь к контейнеру PHP:
+
+`docker-compose exec php bash` 
+
+2.  Выполните необходимую команду. Например:
+
+`./yii migrate/create create_user_table
+./yii migrate/create create_auction_table
+./yii migrate/create create_bid_table
+./yii migrate/up` 
 
 
-##  Directory Structure
+## docker-composer.yml
+```
+version: '3'
+services:
+  php:
+    image: yiisoftware/yii2-php:8.1-fpm-nginx
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app:delegated
+    ports:
+      - 8080:80
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: quickbid
+      MYSQL_USER: quickbid
+      MYSQL_PASSWORD: quickbid
+      MYSQL_ROOT_PASSWORD: quickbid
+    ports:
+      - 3307:3306
 
-## Prerequisites
+  redis:
+    image: redis:latest
+    ports:
+    - 6380:6379
+    networks:
+      net: {}
 
-Before you can run QuickBid, you need to have the following installed:
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+    - 5673:5672
+    networks:
+      net: {}
 
--   Docker
--   Docker Compose
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+        - 8081:80
+    environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOST=mysql
+    depends_on:
+        - mysql
 
-## Installation
-
-To install and run QuickBid, follow these steps:
-
-1.  Clone the Git repository:
-    
-    `git clone https://github.com/AnikanovD/quickbid.git` 
-    
-2.  Build the Docker containers:
-
-    `cd quickbid
-    docker-compose build` 
-    
-3.  Start the Docker containers:
-    
-    `docker-compose up` 
-    
-4.  Open your browser and go to `http://localhost:8080`. You should see the QuickBid home page.
-    
-
-## Usage
-
-To use QuickBid, follow these steps:
-
-1.  Create an account by clicking on the "Sign up" button on the home page.
-    
-2.  Create an auction by clicking on the "Create Auction" button on the home page.
-    
-3.  Participate in an auction by clicking on the auction name and placing a bid.
-    
-4.  End an auction by clicking on the "End Auction" button if you are the auction owner or wait until the auction ends automatically.
-    
-
-
-## Contact
-
-If you have any questions or suggestions, please contact me at my email: [anikanovd@example.com](mailto:anikanovd@example.com).
+networks:
+  net:
+    name: quickbid_net
+```
