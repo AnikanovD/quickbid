@@ -1,0 +1,2 @@
+# quickbid
+Scandinavian auction
