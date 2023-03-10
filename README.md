@@ -9,7 +9,7 @@ QuickBid - это простая аукционная система, позво
 -   Просмотр аукционов и участие в них;
 -   Просмотр истории ставок.
 
-### Установка и запуск
+## Установка и запуск
 
 Следуйте этим шагам, чтобы установить и запустить QuickBid:
 
@@ -31,30 +31,11 @@ docker-compose up
 
 Вы должны увидеть домашнюю страницу QuickBid.
 
-### Доступ к базе данных
+## Доступ к базе данных
 
 Для доступа к базе данных QuickBid вы можете использовать PHPMyAdmin. 
 Для входа используйте логин `quickbid` и пароль `quickbid`.
 Он будет доступен по адресу (http://localhost:8081`). 
-
----
-
-## Структура проекта
-
--   `commands/` - содержит консольные команды (контроллеры);
--   `commands/AuctionEndCommand` - содержит консольные команды (контроллеры);
--   `config/` - содержит конфигурации приложения;
--   `controllers/AuctionController.php` - содержит классы веб-контроллеров;
--   `controllers/BidController` - содержит классы веб-контроллеров;
--   `models/` - содержит классы моделей;
--   `models/User.php` - содержит классы моделей;
--   `models/Auction.php` - содержит классы моделей;
--   `models/Bid.php` - содержит классы моделей;
--   `migrations/create_user_table.php` - ;
--   `migrations/create_auction_table.php` - ;
--   `migrations/create_bid_table.php` - ;
--   `views/` - содержит файлы представлений для веб-приложения;
--   `web/photo/` - содержит изображения для демо аукционов
 
 ### Команды и миграции
 
@@ -72,6 +53,23 @@ docker-compose up
 ./yii migrate/create create_bid_table
 ./yii migrate/up
 ``` 
+
+## Структура проекта
+
+-   `commands/` - содержит консольные команды (контроллеры);
+-   `commands/AuctionEndCommand` - содержит консольные команды (контроллеры);
+-   `config/` - содержит конфигурации приложения;
+-   `controllers/AuctionController.php` - содержит классы веб-контроллеров;
+-   `controllers/BidController` - содержит классы веб-контроллеров;
+-   `models/` - содержит классы моделей;
+-   `models/User.php` - содержит классы моделей;
+-   `models/Auction.php` - содержит классы моделей;
+-   `models/Bid.php` - содержит классы моделей;
+-   `migrations/create_user_table.php` - ;
+-   `migrations/create_auction_table.php` - ;
+-   `migrations/create_bid_table.php` - ;
+-   `views/` - содержит файлы представлений для веб-приложения;
+-   `web/photo/` - содержит изображения для демо аукционов
 
 
 ## docker-composer.yml
