@@ -1,12 +1,13 @@
 # QuickBid
 
-QuickBid - это простая аукционная система, позволяющая пользователям создавать и участвовать в аукционах. Система построена с использованием PHP, фреймворка Yii2, MySQL, Redis и RabbitMQ.
+QuickBid - это простая аукционная система, позволяющая пользователям участвовать в аукционах. 
+Применяемый стек технологий: Docker, PHP, Yii2, MySQL, Redis и RabbitMQ.
 
 ## Функционал
 
--   Создание аукционов и участие в них;
--   Упрощенная регистрация и вход только по имени пользователя;
--   Начисление приветственного бонуса в размере 1000 ₽ всем новым участникам.
+-   Вход без пароля, только по имени пользователя;
+-   Просмотр аукционов и участие в них;
+-   Просмотр истории ставок.
 
 ### Установка и запуск
 
@@ -14,33 +15,46 @@ QuickBid - это простая аукционная система, позво
 
 1.  Клонируйте репозиторий:
 
-`git clone https://github.com/AnikanovD/quickbid.git` 
+```
+git clone https://github.com/AnikanovD/quickbid.git
+``` 
 
-2.  Перейдите в директорию с проектом и соберите Docker-контейнеры:
+2.  Перейдите в директорию с проектом, соберите и запустите Docker-контейнеры:
 
-`cd quickbid
-docker-compose build` 
+```
+cd quickbid
+docker-compose build
+docker-compose up
+``` 
 
-3.  Запустите Docker-контейнеры:
+3.  Откройте браузер и перейдите по адресу (http://localhost:8080). 
 
-`docker-compose up` 
+Вы должны увидеть домашнюю страницу QuickBid.
 
-4.  Откройте браузер и перейдите по адресу `http://localhost:8080`. Вы должны увидеть домашнюю страницу QuickBid.
+### Доступ к базе данных
+
+Для доступа к базе данных QuickBid вы можете использовать PHPMyAdmin. 
+Для входа используйте логин `quickbid` и пароль `quickbid`.
+Он будет доступен по адресу (http://localhost:8081`). 
 
 ---
 
 ## Структура проекта
 
 -   `commands/` - содержит консольные команды (контроллеры);
+-   `commands/AuctionEndCommand` - содержит консольные команды (контроллеры);
 -   `config/` - содержит конфигурации приложения;
--   `controllers/` - содержит классы веб-контроллеров;
+-   `controllers/AuctionController.php` - содержит классы веб-контроллеров;
+-   `controllers/BidController` - содержит классы веб-контроллеров;
 -   `models/` - содержит классы моделей;
+-   `models/User.php` - содержит классы моделей;
+-   `models/Auction.php` - содержит классы моделей;
+-   `models/Bid.php` - содержит классы моделей;
+-   `migrations/create_user_table.php` - ;
+-   `migrations/create_auction_table.php` - ;
+-   `migrations/create_bid_table.php` - ;
 -   `views/` - содержит файлы представлений для веб-приложения;
 -   `web/photo/` - содержит изображения для демо аукционов
-
-### Доступ к базе данных
-
-Для доступа к базе данных QuickBid вы можете использовать PHPMyAdmin. Он будет доступен по адресу `http://localhost:8081`. Для входа используйте логин `quickbid` и пароль `quickbid`.
 
 ### Команды и миграции
 
@@ -52,10 +66,12 @@ docker-compose build`
 
 2.  Выполните необходимую команду. Например:
 
-`./yii migrate/create create_user_table
+```
+./yii migrate/create create_user_table
 ./yii migrate/create create_auction_table
 ./yii migrate/create create_bid_table
-./yii migrate/up` 
+./yii migrate/up
+``` 
 
 
 ## docker-composer.yml
