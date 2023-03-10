@@ -40,6 +40,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     if (Yii::$app->user->isGuest) {
         $navBarItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
     } else {
+        $navBarItems[] = ['label' => 'Баланс 1000 ₽', 'url' => ['/site/login']];
         $navBarItems[] = '<li class="nav-item">'
             . Html::beginForm(['/site/logout'])
             . Html::submitButton(
